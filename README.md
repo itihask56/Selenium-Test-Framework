@@ -1,6 +1,6 @@
 # 🚀 Selenium Test Automation Framework
 
-[![CI/CD Pipeline](https://github.com/itihask56/selenium-test-framework/workflows/CI/CD%20Pipeline/badge.svg)](https://github.com/itihask56/selenium-test-framework/actions)
+[![CI/CD Pipeline](https://github.com/itihask56/selenium-test-framework/workflows/CI/CD%20Pipeline/badge.svg)](https://www.jenkins.io/)
 [![Java](https://img.shields.io/badge/Java-11%2B-orange.svg)](https://www.oracle.com/java/)
 [![Maven](https://img.shields.io/badge/Maven-3.6%2B-blue.svg)](https://maven.apache.org/)
 [![Selenium](https://img.shields.io/badge/Selenium-4.15.0-green.svg)](https://selenium.dev/)
