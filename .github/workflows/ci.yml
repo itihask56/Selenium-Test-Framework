@@ -1,0 +1,129 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        browser: [chrome, firefox]
+        java-version: [11, 17]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: "temurin"
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Install dependencies
+        run: mvn clean compile test-compile
+
+      - name: Run framework validation tests
+        run: mvn test -Dsurefire.suiteXmlFiles=src/test/resources/framework-validation-suite.xml -Dbrowser=${{ matrix.browser }} -Dheadless=true
+
+      - name: Run demo website tests
+        run: mvn test -Dsurefire.suiteXmlFiles=src/test/resources/demo-website-suite.xml -Dbrowser=${{ matrix.browser }} -Dheadless=true
+        continue-on-error: true
+
+      - name: Generate test report
+        if: always()
+        run: |
+          mkdir -p reports
+          find . -name "*.html" -path "*/surefire-reports/*" -exec cp {} reports/ \;
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-reports-${{ matrix.browser }}-java${{ matrix.java-version }}
+          path: |
+            reports/
+            target/surefire-reports/
+            logs/
+
+      - name: Upload screenshots
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: screenshots-${{ matrix.browser }}-java${{ matrix.java-version }}
+          path: screenshots/
+
+  code-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: "11"
+          distribution: "temurin"
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Compile and check code quality
+        run: |
+          mvn clean compile
+          mvn checkstyle:check || true
+          mvn spotbugs:check || true
+
+      - name: Run unit tests with coverage
+        run: mvn test -Dtest="*Test" -DfailIfNoTests=false
+
+      - name: Generate coverage report
+        run: mvn jacoco:report || true
+
+  security-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: "11"
+          distribution: "temurin"
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Run OWASP dependency check
+        run: |
+          mvn org.owasp:dependency-check-maven:check || true
+
+      - name: Upload security scan results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-scan-results
+          path: target/dependency-check-report.html

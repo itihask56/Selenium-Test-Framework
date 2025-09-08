@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Framework Validation Suite" verbose="1" parallel="methods" thread-count="3">
+    
+    <parameter name="browser" value="chrome"/>
+    <parameter name="environment" value="dev"/>
+    <parameter name="headless" value="false"/>
+    
+    <listeners>
+        <listener class-name="com.framework.reporting.TestListener"/>
+    </listeners>
+    
+    <!-- Configuration Validation Tests -->
+    <test name="Configuration Validation Tests" preserve-order="true">
+        <classes>
+            <class name="com.framework.validation.ConfigurationValidationTest">
+                <methods>
+                    <include name="testConfigurationFileExists"/>
+                    <include name="testConfigManagerSingleton"/>
+                    <include name="testRequiredPropertiesExist"/>
+                    <include name="testBrowserConfiguration"/>
+                    <include name="testEnvironmentConfiguration"/>
+                    <include name="testNumericConfigurationProperties"/>
+                    <include name="testBooleanConfigurationProperties"/>
+                    <include name="testSystemPropertyOverride"/>
+                    <include name="testConfigurationReload"/>
+                    <include name="testDefaultValueHandling"/>
+                    <include name="testTestConfigInitialization"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- Cross-Browser Validation Tests -->
+    <test name="Cross-Browser Validation Tests" preserve-order="true">
+        <classes>
+            <class name="com.framework.validation.CrossBrowserValidationTest">
+                <methods>
+                    <include name="testBrowserInitialization"/>
+                    <include name="testBrowserNavigation"/>
+                    <include name="testHeadlessMode"/>
+                    <include name="testParallelBrowserExecution"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- Performance Validation Tests -->
+    <test name="Performance Validation Tests" preserve-order="true">
+        <classes>
+            <class name="com.framework.validation.PerformanceValidationTest">
+                <methods>
+                    <include name="testDriverInitializationPerformance"/>
+                    <include name="testResourceCleanupEfficiency"/>
+                    <include name="testConcurrentDriverInitialization"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- Memory and Resource Validation Tests -->
+    <test name="Memory and Resource Validation Tests" preserve-order="true">
+        <classes>
+            <class name="com.framework.validation.MemoryResourceValidationTest">
+                <methods>
+                    <include name="testDriverLifecycleMemoryUsage"/>
+                    <include name="testResourceCleanupEfficiency"/>
+                    <include name="testConcurrentResourceManagement"/>
+                    <include name="testMemoryLeakDetection"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- End-to-End Validation Tests -->
+    <test name="End-to-End Validation Tests" preserve-order="true">
+        <classes>
+            <class name="com.framework.validation.EndToEndValidationTest">
+                <methods>
+                    <include name="testCompleteFrameworkWorkflow"/>
+                    <include name="testFrameworkErrorHandling"/>
+                    <include name="testFrameworkResourceManagement"/>
+                    <include name="testFrameworkConfigurationIntegration"/>
+                    <include name="testFrameworkThreadSafety"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+</suite>

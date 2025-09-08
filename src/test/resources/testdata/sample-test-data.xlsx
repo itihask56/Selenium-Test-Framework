@@ -1,0 +1,24 @@
+# This is a placeholder for Excel file. In a real implementation, this would be a binary Excel file.
+# For demonstration purposes, I'll create a CSV version that can be converted to Excel.
+# The actual Excel file should contain the following data structure:
+
+# Sheet: LoginData
+# Columns: username, password, expectedResult, testDescription
+# Row 1: admin, admin123, success, Valid login with admin credentials
+# Row 2: user1, password1, success, Valid login with user credentials  
+# Row 3: invalid, wrongpass, failure, Invalid login attempt
+# Row 4: , password, failure, Empty username
+# Row 5: username, , failure, Empty password
+
+# Sheet: SearchData  
+# Columns: searchTerm, expectedResults, testDescription
+# Row 1: selenium, Found results, Search for selenium
+# Row 2: automation, Found results, Search for automation
+# Row 3: testing, Found results, Search for testing
+# Row 4: xyz123, No results, Search with no results
+
+# Sheet: DropdownData
+# Columns: optionText, testDescription
+# Row 1: Option 1, Select first option
+# Row 2: Option 2, Select second option
+# Row 3: Option 3, Select third option

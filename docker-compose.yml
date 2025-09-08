@@ -1,0 +1,121 @@
+version: "3.8"
+
+services:
+  # Smoke tests
+  smoke-tests:
+    build: .
+    environment:
+      - BROWSER=chrome
+      - ENVIRONMENT=dev
+      - HEADLESS=true
+      - THREAD_COUNT=2
+      - TEST_SUITE=smoke
+    volumes:
+      - ./reports:/app/reports
+      - ./screenshots:/app/screenshots
+      - ./logs:/app/logs
+      - ./target:/app/target
+    command:
+      [
+        "mvn",
+        "test",
+        "-Psmoke,dev,chrome",
+        "-Dheadless=true",
+        "-Dthread.count=2",
+      ]
+
+  # Regression tests
+  regression-tests:
+    build: .
+    environment:
+      - BROWSER=chrome
+      - ENVIRONMENT=dev
+      - HEADLESS=true
+      - THREAD_COUNT=3
+      - TEST_SUITE=regression
+    volumes:
+      - ./reports:/app/reports
+      - ./screenshots:/app/screenshots
+      - ./logs:/app/logs
+      - ./target:/app/target
+    command:
+      [
+        "mvn",
+        "test",
+        "-Pregression,dev,chrome",
+        "-Dheadless=true",
+        "-Dthread.count=3",
+      ]
+
+  # Cross-browser tests
+  cross-browser-chrome:
+    build: .
+    environment:
+      - BROWSER=chrome
+      - ENVIRONMENT=dev
+      - HEADLESS=true
+    volumes:
+      - ./reports:/app/reports
+      - ./screenshots:/app/screenshots
+      - ./logs:/app/logs
+      - ./target:/app/target
+    command: ["mvn", "test", "-Pcross-browser,dev", "-Dheadless=true"]
+
+  cross-browser-firefox:
+    build: .
+    environment:
+      - BROWSER=firefox
+      - ENVIRONMENT=dev
+      - HEADLESS=true
+    volumes:
+      - ./reports:/app/reports
+      - ./screenshots:/app/screenshots
+      - ./logs:/app/logs
+      - ./target:/app/target
+    command: ["mvn", "test", "-Pcross-browser,dev", "-Dheadless=true"]
+
+  # API tests (no browser needed)
+  api-tests:
+    build: .
+    environment:
+      - ENVIRONMENT=dev
+      - THREAD_COUNT=2
+    volumes:
+      - ./reports:/app/reports
+      - ./logs:/app/logs
+      - ./target:/app/target
+    command: ["mvn", "test", "-Papi,dev", "-Dthread.count=2"]
+
+  # Performance tests
+  performance-tests:
+    build: .
+    environment:
+      - BROWSER=chrome
+      - ENVIRONMENT=dev
+      - HEADLESS=true
+      - THREAD_COUNT=1
+    volumes:
+      - ./reports:/app/reports
+      - ./screenshots:/app/screenshots
+      - ./logs:/app/logs
+      - ./target:/app/target
+    command:
+      [
+        "mvn",
+        "test",
+        "-Pperformance,dev,chrome",
+        "-Dheadless=true",
+        "-Dthread.count=1",
+      ]
+
+  # Allure report generation
+  allure-report:
+    image: frankescobar/allure-docker-service
+    environment:
+      CHECK_RESULTS_EVERY_SECONDS: 1
+      KEEP_HISTORY: 1
+    ports:
+      - "5050:5050"
+    volumes:
+      - ./target/allure-results:/app/allure-results
+      - ./allure-reports:/app/default-reports

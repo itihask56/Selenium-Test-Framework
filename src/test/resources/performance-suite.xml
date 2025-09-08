@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="PerformanceTestSuite" parallel="methods" thread-count="1">
+    
+    <parameter name="browser" value="${browser}"/>
+    <parameter name="environment" value="${environment}"/>
+    
+    <listeners>
+        <listener class-name="com.framework.reporting.TestListener"/>
+        <listener class-name="com.framework.reporting.RetryTransformer"/>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+    
+    <test name="PerformanceTests" preserve-order="true">
+        <groups>
+            <run>
+                <include name="performance"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.framework.tests.SampleTest">
+                <methods>
+                    <include name="testPerformance"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+</suite>

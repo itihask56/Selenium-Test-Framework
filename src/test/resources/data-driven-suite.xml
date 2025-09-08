@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="DataDrivenTestSuite" parallel="methods" thread-count="2">
+    
+    <parameter name="browser" value="${browser}"/>
+    <parameter name="environment" value="${environment}"/>
+    
+    <listeners>
+        <listener class-name="com.framework.reporting.TestListener"/>
+        <listener class-name="com.framework.reporting.RetryTransformer"/>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+    
+    <test name="LoginDataDrivenTests" preserve-order="true">
+        <classes>
+            <class name="com.framework.tests.SampleTest">
+                <methods>
+                    <include name="testLogin"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <test name="SearchDataDrivenTests" preserve-order="true">
+        <classes>
+            <class name="com.framework.tests.SampleTest">
+                <methods>
+                    <include name="testSearch"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+</suite>

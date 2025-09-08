@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="SeleniumTestFramework" verbose="1">
+    <parameter name="browser" value="chrome"/>
+    <parameter name="environment" value="dev"/>
+    
+    <listeners>
+        <listener class-name="com.framework.reporting.TestListener"/>
+        <listener class-name="com.framework.reporting.RetryTransformer"/>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+    
+    <test name="SampleTests" preserve-order="true">
+        <classes>
+            <class name="com.framework.tests.SampleTest">
+                <methods>
+                    <include name="testPageLoad"/>
+                    <include name="testLogin"/>
+                    <include name="testSearch"/>
+                    <include name="testDropdownSelection"/>
+                    <include name="testAdvancedFeatures"/>
+                    <include name="testCrossBrowserCompatibility"/>
+                    <include name="testErrorHandling"/>
+                    <include name="testPerformance"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <test name="SmokeTests" preserve-order="true">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="com.framework.tests"/>
+        </packages>
+    </test>
+    
+    <test name="RegressionTests" preserve-order="true">
+        <groups>
+            <run>
+                <include name="regression"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="com.framework.tests"/>
+        </packages>
+    </test>
+</suite>

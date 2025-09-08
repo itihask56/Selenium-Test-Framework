@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="CrossBrowserTestSuite" parallel="tests" thread-count="3">
+    
+    <listeners>
+        <listener class-name="com.framework.reporting.TestListener"/>
+        <listener class-name="com.framework.reporting.RetryTransformer"/>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+    
+    <test name="ChromeTests">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="environment" value="${environment}"/>
+        <classes>
+            <class name="com.framework.tests.SampleTest">
+                <methods>
+                    <include name="testPageLoad"/>
+                    <include name="testLogin"/>
+                    <include name="testCrossBrowserCompatibility"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <test name="FirefoxTests">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="environment" value="${environment}"/>
+        <classes>
+            <class name="com.framework.tests.SampleTest">
+                <methods>
+                    <include name="testPageLoad"/>
+                    <include name="testLogin"/>
+                    <include name="testCrossBrowserCompatibility"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <test name="EdgeTests">
+        <parameter name="browser" value="edge"/>
+        <parameter name="environment" value="${environment}"/>
+        <classes>
+            <class name="com.framework.tests.SampleTest">
+                <methods>
+                    <include name="testPageLoad"/>
+                    <include name="testLogin"/>
+                    <include name="testCrossBrowserCompatibility"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+</suite>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Demo Website Test Suite" verbose="1" parallel="methods" thread-count="2">
+    
+    <parameter name="browser" value="chrome"/>
+    <parameter name="environment" value="dev"/>
+    <parameter name="headless" value="false"/>
+    
+    <listeners>
+        <listener class-name="com.framework.reporting.TestListener"/>
+    </listeners>
+    
+    <!-- Demo Website Functional Tests -->
+    <test name="Demo Website Functional Tests" preserve-order="true">
+        <classes>
+            <class name="com.framework.tests.DemoWebsiteTest">
+                <methods>
+                    <include name="testHomepageLoad"/>
+                    <include name="testSuccessfulLogin"/>
+                    <include name="testFailedLogin"/>
+                    <include name="testCheckboxFunctionality"/>
+                    <include name="testDropdownFunctionality"/>
+                    <include name="testDynamicLoading"/>
+                    <include name="testJavaScriptAlerts"/>
+                    <include name="testMultiplePageNavigation"/>
+                    <include name="testErrorHandling"/>
+                    <include name="testFrameworkPerformance"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+</suite>
