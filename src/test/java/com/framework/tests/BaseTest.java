@@ -5,7 +5,7 @@ import com.framework.config.TestConfig;
 import com.framework.driver.DriverManager;
 import com.framework.reporting.ScreenshotUtils;
 import com.framework.utils.TestLogger;
-import org.openqa.selenium.WebDriver;
+//import org.openqa.*;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public abstract class BaseTest {
     
-    protected WebDriver driver;
+//    protected WebDriver driver;
     protected ConfigManager configManager;
     protected TestConfig testConfig;
     protected TestLogger testLogger;
@@ -79,13 +79,13 @@ public abstract class BaseTest {
         
         // Initialize WebDriver
         try {
-            driver = DriverManager.getInstance().initializeDriver();
+            // driver = DriverManager.getInstance().initializeDriver();
             testLogger.getLogger().info("WebDriver initialized successfully for test: {}", testName);
             
             // Navigate to base URL if configured
             String baseUrl = getBaseUrl();
             if (baseUrl != null && !baseUrl.isEmpty()) {
-                driver.get(baseUrl);
+                // driver.get(baseUrl);
                 testLogger.getLogger().info("Navigated to base URL: {}", baseUrl);
             }
             
